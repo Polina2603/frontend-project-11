@@ -1,11 +1,16 @@
-install:	#Установка пакетов
+develop:
+	npx webpack serve
+
+install:
 	npm ci
 
-link:		#Линк пакетов
-	sudo npm link
+build:
+	NODE_ENV=production npx webpack
 
-publish:	#Проверка публикации
-	npm publish --dry-run
+test:
+	npm test
 
-lint:		#Проверка линтером
+lint:
 	npx eslint .
+
+.PHONY: test
