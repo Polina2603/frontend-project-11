@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 import onChange from 'on-change';
 
 const handleFormProcess = (initialState, elements, i18nextInstance) => {
