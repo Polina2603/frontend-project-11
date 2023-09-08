@@ -80,7 +80,7 @@ export default () => {
         processState: 'idle',
         form: {
           error: null,
-          valid: 'filling',
+          valid: true,
         },
         validatedLinks: [],
         uiState: {
