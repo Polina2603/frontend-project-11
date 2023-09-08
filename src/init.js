@@ -1,10 +1,6 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 import i18n from 'i18next';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import axios from 'axios';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import * as yup from 'yup';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import _ from 'lodash';
 import state from './view.js';
 import resources from './locales/index.js';
@@ -64,6 +60,7 @@ export default () => {
   const i18nextInstance = i18n.createInstance();
   i18nextInstance.init({
     lng: 'ru',
+    debug: false,
     resources,
   })
     .then(() => {
