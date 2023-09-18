@@ -15,22 +15,19 @@ const getUrlProxy = (url) => {
   return href;
 };
 
-const typeError = (e) => {
-  let value = null;
-
+const typeError = (e, i18nextInstance) => {
   if (e.isParseError) {
-    value = 'formFeedback.errors.parserError';
+    return i18nextInstance.t('formFeedback.errors.parserError');
   }
   if (e.isAxiosError) {
-    value = 'formFeedback.errors.network';
+    return i18nextInstance.t('formFeedback.errors.network');
   }
   if (e.errors) {
     const [errorCode] = e.errors;
-    value = errorCode;
+    return i18nextInstance.t(errorCode);
   }
-  return value;
+  return i18nextInstance.t('formFeedback.errors.unknownError');
 };
-
 const updateRSS = (watchedState) => {
   const promises = watchedState.data.feeds.map((feed) => {
     const proxyURL = new URL(getUrlProxy(feed.url));
@@ -60,7 +57,7 @@ export default () => {
   const i18nextInstance = i18n.createInstance();
   i18nextInstance.init({
     lng: 'ru',
-    debug: false,
+    debug: true,
     resources,
   })
     .then(() => {
@@ -110,8 +107,8 @@ export default () => {
         watchedState.processState = 'loading';
         const formData = new FormData(ev.target);
         const url = formData.get('url');
-
-        urlSchema(watchedState.validatedLinks).validate(url)
+        const links = watchedState.data.feeds.map((feed) => feed.url);
+        urlSchema(links).validate(url)
           .then((link) => {
             const urlProx = getUrlProxy(link);
             return axios.get(urlProx);
@@ -120,8 +117,6 @@ export default () => {
           .then((content) => {
             const parsedContent = parse(content);
             const { currentFeed, currentPosts } = parsedContent;
-
-            watchedState.form.valid = true;
 
             currentFeed.id = _.uniqueId();
             currentFeed.url = url;
@@ -135,12 +130,16 @@ export default () => {
             watchedState.data.posts.push(...currentPosts);
             watchedState.validatedLinks.push(url);
             watchedState.processState = 'idle';
-
-            return currentFeed.id;
+            watchedState.form = {
+              error: null,
+              valid: true,
+            };
           })
           .catch((e) => {
-            watchedState.form.error = typeError(e);
-            watchedState.form.valid = false;
+            watchedState.form = {
+              error: typeError(e, i18nextInstance),
+              valid: false,
+            };
             watchedState.processState = 'failed';
           });
       });

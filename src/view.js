@@ -148,11 +148,6 @@ const renderModal = (elements, value, initialState) => {
 export default (initialState, elements, i18nextInstance) => {
   const watchedState = onChange(initialState, (path, value) => {
     switch (path) {
-      case 'form.error':
-      case 'form.valid':
-        handleFormProcess(initialState, elements, i18nextInstance);
-        break;
-
       case 'processState':
         handleProcess(elements, value);
         break;
@@ -175,6 +170,10 @@ export default (initialState, elements, i18nextInstance) => {
 
       case 'uiState.modalPostId':
         renderModal(elements, value, initialState);
+        break;
+
+      case 'form':
+        handleFormProcess(initialState, elements, i18nextInstance);
         break;
 
       default:
