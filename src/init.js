@@ -15,18 +15,18 @@ const getUrlProxy = (url) => {
   return href;
 };
 
-const typeError = (e, i18nextInstance) => {
-  if (e.isParseError) {
-    return i18nextInstance.t('formFeedback.errors.parserError');
+const typeError = (e) => {
+  if (e.name === 'ParserError') {
+    return 'formFeedback.errors.parserError';
   }
   if (e.isAxiosError) {
-    return i18nextInstance.t('formFeedback.errors.network');
+    return 'formFeedback.errors.network';
   }
   if (e.errors) {
     const [errorCode] = e.errors;
-    return i18nextInstance.t(errorCode);
+    return errorCode;
   }
-  return i18nextInstance.t('formFeedback.errors.unknownError');
+  return 'formFeedback.errors.unknownError';
 };
 const updateRSS = (watchedState) => {
   const promises = watchedState.data.feeds.map((feed) => {
