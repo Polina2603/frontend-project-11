@@ -19,23 +19,21 @@ const handleFormProcess = (initialState, elements, i18nextInstance) => {
 const handleProcess = (elements, processState) => {
   const { form, input, submitButton } = elements;
 
-  submitButton.disabled = (processState === 'loading');
-
-  if (processState === 'idle' || processState === 'failed') {
-    input.removeAttribute('readonly');
-  }
-
   switch (processState) {
     case 'loading':
       input.setAttribute('readonly', 'true');
+      submitButton.disabled = true;
       break;
-
     case 'idle':
       form.reset();
       input.focus();
+      submitButton.disabled = false;
+      input.removeAttribute('readonly');
       break;
 
     case 'failed':
+      submitButton.disabled = false;
+      input.removeAttribute('readonly');
       break;
 
     default:

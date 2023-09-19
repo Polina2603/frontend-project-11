@@ -11,6 +11,7 @@ export default {
         duplicateUrl: 'RSS уже существует',
         emptyField: 'Не должно быть пустым',
         network: 'Ошибка сети',
+        unknownError: 'Неизвестная ошибка',
       },
     },
   },
