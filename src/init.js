@@ -79,7 +79,6 @@ export default () => {
           error: null,
           valid: true,
         },
-        validatedLinks: [],
         uiState: {
           readPostsId: new Set(),
           modalPostId: null,
@@ -128,7 +127,6 @@ export default () => {
 
             watchedState.data.feeds.push(currentFeed);
             watchedState.data.posts.push(...currentPosts);
-            watchedState.validatedLinks.push(url);
             watchedState.processState = 'idle';
             watchedState.form = {
               error: null,
